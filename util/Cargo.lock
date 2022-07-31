@@ -3,7 +3,7 @@
 version = 3
 
 [[package]]
-name = "loss-rs"
+name = "lossrs_util"
 version = "0.1.0"
 dependencies = [
  "primitive_enum",

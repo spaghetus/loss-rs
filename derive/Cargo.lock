@@ -3,17 +3,17 @@
 version = 3
 
 [[package]]
-name = "loss-rs"
-version = "0.1.0"
-dependencies = [
- "primitive_enum",
-]
-
-[[package]]
 name = "lossrs_derive"
 version = "0.1.0"
 dependencies = [
- "loss-rs",
+ "lossrs_util",
+]
+
+[[package]]
+name = "lossrs_util"
+version = "0.1.0"
+dependencies = [
+ "primitive_enum",
 ]
 
 [[package]]

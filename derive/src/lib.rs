@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use loss_rs::LossBits;
+use lossrs_util::LossBits;
 use proc_macro::TokenStream;
 
 #[proc_macro]
@@ -10,7 +10,7 @@ pub fn losscode(ts: TokenStream) -> TokenStream {
 		.map(|v| match v {
 			proc_macro::TokenTree::Ident(s) => {
 				let s = s.to_string();
-				loss_rs::LossBits::from_str(&s).unwrap()
+				lossrs_util::LossBits::from_str(&s).unwrap()
 			}
 			_ => unimplemented!(),
 		})

@@ -1,4 +1,4 @@
-use loss_rs::LossBits;
+use lossrs_util::LossBits;
 
 fn main() {
 	let src = std::env::args().nth(1).expect("required source file");
