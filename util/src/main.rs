@@ -1,4 +1,5 @@
 use lossrs_util::LossBits;
+use rayon::prelude::*;
 
 fn main() {
 	let src = std::env::args().nth(1).expect("required source file");
@@ -7,7 +8,7 @@ fn main() {
 	let in_file: Vec<u8> = std::fs::read(src).expect("couldn't read in");
 	let in_losses: Vec<_> = in_file.iter().map(|v| LossBits::from_byte(*v)).collect();
 	let string = in_losses
-		.iter()
+		.par_iter()
 		.flatten()
 		.map(|v| v.to_string())
 		.collect::<Vec<_>>()

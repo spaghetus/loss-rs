@@ -1,7 +1,7 @@
-use std::str::FromStr;
-
 use lossrs_util::LossBits;
 use proc_macro::TokenStream;
+use rayon::prelude::*;
+use std::str::FromStr;
 
 #[proc_macro]
 pub fn losscode(ts: TokenStream) -> TokenStream {
@@ -16,7 +16,7 @@ pub fn losscode(ts: TokenStream) -> TokenStream {
 		})
 		.collect::<Vec<_>>();
 	let bytes = lossbits
-		.chunks_exact(4)
+		.par_chunks_exact(4)
 		.map(|v| {
 			let mut lossbits: [LossBits; 4] = Default::default();
 			lossbits.copy_from_slice(v);
