@@ -9,7 +9,7 @@ fn main() {
 	let string = in_losses
 		.iter()
 		.flatten()
-		.map(|v| v.to_str())
+		.map(|v| v.to_string())
 		.collect::<Vec<_>>()
 		.join(" ");
 	let string = "lossrs_derive::losscode! {".to_string() + &string + "}";

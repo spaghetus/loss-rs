@@ -1,6 +1,5 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, str::FromStr};
 
-use primitive_enum::primitive_enum;
 #[derive(Debug, Clone, Copy)]
 pub enum LossBits {
 	I = 0,
@@ -25,12 +24,11 @@ impl LossBits {
 	}
 	pub fn from_byte(byte: u8) -> [LossBits; 4] {
 		let mut list: [LossBits; 4] = Default::default();
-		for i in 0..4 {
+		for (i, n) in list.iter_mut().enumerate() {
 			let shr = byte >> (i * 2);
-			let bits = shr & 3;
 			let a = (shr & 2) > 0;
 			let b = (shr & 1) > 0;
-			list[i] = LossBits::from_bits([a, b])
+			*n = LossBits::from_bits([a, b])
 		}
 		list
 	}
@@ -44,30 +42,38 @@ impl LossBits {
 	}
 	pub fn to_byte(input: [LossBits; 4]) -> u8 {
 		let mut out = 0;
-		for i in 0..4 {
-			let [a, b] = input[i].to_bits();
+		for (i, n) in input.iter().enumerate() {
+			let [a, b] = n.to_bits();
 			let a = if a { 2 } else { 0 };
 			let b = if b { 1 } else { 0 };
 			let c = a | b;
-			out = out | (c << (i * 2));
+			out |= c << (i * 2);
 		}
 		out
 	}
-	pub fn from_str(string: &str) -> LossBits {
-		match string {
+}
+
+impl FromStr for LossBits {
+	fn from_str(string: &str) -> Result<LossBits, ()> {
+		Ok(match string {
 			"I" => Self::I,
 			"Ii" => Self::Ii,
 			"II" => Self::II,
 			"I_" => Self::I_,
 			_ => unreachable!(),
-		}
+		})
 	}
-	pub fn to_str(&self) -> &'static str {
+
+	type Err = ();
+}
+
+impl ToString for LossBits {
+	fn to_string(&self) -> String {
 		match self {
-			Self::I => "I",
-			Self::Ii => "Ii",
-			Self::II => "II",
-			Self::I_ => "I_",
+			Self::I => "I".to_string(),
+			Self::Ii => "Ii".to_string(),
+			Self::II => "II".to_string(),
+			Self::I_ => "I_".to_string(),
 		}
 	}
 }

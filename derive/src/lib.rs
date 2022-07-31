@@ -10,7 +10,7 @@ pub fn losscode(ts: TokenStream) -> TokenStream {
 		.map(|v| match v {
 			proc_macro::TokenTree::Ident(s) => {
 				let s = s.to_string();
-				loss_rs::LossBits::from_str(&s)
+				loss_rs::LossBits::from_str(&s).unwrap()
 			}
 			_ => unimplemented!(),
 		})
